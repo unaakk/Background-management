@@ -33,6 +33,13 @@ const tableData = ref([
   },
 ]);
 
+import axios from 'axios'; //直接引用写法
+axios({
+    url:'/api/home/getTableData',
+    method:'get'
+}).then(res=>{
+    console.log(res.data);
+})
 </script>
 
 <template>
