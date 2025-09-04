@@ -1,10 +1,37 @@
 <script setup>
-
+import { ref } from 'vue';
 var time = new Date().toLocaleTimeString();
 const getImageUrl = (user)=> {
     return new URL(`../assets/images/${user}.png`,import.meta.url).href;
 }
-
+const tableLabel = ref([
+    {
+        label: "课程", tag: "name", fixed: true
+    },
+    {
+        label: "今日购买", tag: "todayBuy", 
+    },
+    {
+        label: "月度购买", tag: "mouthBuy", 
+    },
+    {
+        label: "总购买", tag: "totalBuy",
+    }
+]);
+const tableData = ref([
+  {
+    name: 'python',
+    todayBuy: '300',
+    mouthBuy: '1000',
+    totalBuy: '2200',
+  },
+  {
+    name: 'java',
+    todayBuy: '700',
+    mouthBuy: '900',
+    totalBuy: '1200',
+  },
+]);
 
 </script>
 
@@ -24,6 +51,16 @@ const getImageUrl = (user)=> {
                         <p>上次登录时间：<span >{{ time }}</span></p>
                         <p>上次登录地点：<span >北京</span></p>
                     </div>
+                </el-card>
+                <el-card shoadow="hover" class="order-table">
+                    <el-table :data="tableData" style="width: 100%" height="250">
+                        <el-table-column 
+                        v-for=" (val,key) in tableLabel" 
+                        :key="key" 
+                        :prop="val.tag"
+                        :label="val.label"
+                        :fixed="val.fixed" />
+                    </el-table>
                 </el-card>
             </el-col>
             <el-col :span="16" style="margin-top:20px">
@@ -78,6 +115,7 @@ const getImageUrl = (user)=> {
                 margin-bottom:10px;
             }
         }
+
     }
     
 </style>
