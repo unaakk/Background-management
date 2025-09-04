@@ -35,6 +35,8 @@ const tableData = ref([
   },
 ]);
 const countData = ref([]);
+const observer = ref(null);
+
 
 const {proxy} = getCurrentInstance();
 const getTableData = async ()=>{
@@ -86,6 +88,16 @@ const getChartData = async ()=>{
     }
     const videoEchart = echarts.init(proxy.$refs['videoEchart']);
     videoEchart.setOption(pipOptions);
+
+    // 监听页面变化
+    observer.value = new ResizeObserver((en)=>{
+        orderEchart.resize();
+        userEchart.resize();
+        videoEchart.resize();
+    })
+    if(proxy.$refs['orderEchart']) {
+        observer.value.observe(proxy.$refs['orderEchart']);
+    }
 }
 
 const xOptions = reactive({
