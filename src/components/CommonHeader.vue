@@ -2,7 +2,7 @@
     <div class="header">
         <div class="l-content">
             <!-- <el-button :icon="Menu"/> -->
-            <el-button size="small" style="margin-right:5px">
+            <el-button size="small" @click="handleCollapse" style="margin-right:5px">
                 <component class="icons" is="menu"></component>
             </el-button>
             <el-breadcrumb class="bread" :separator-icon="ArrowRight" >
@@ -29,11 +29,15 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import {useAllDataStore} from '@/stores';
 const getImageUrl = (user)=>{
     return new URL(`../assets/images/${user}.png`,import.meta.url).href
 }
 
-
+const store = useAllDataStore();
+const handleCollapse = ()=>{
+    store.state.isCollapse = !store.state.isCollapse;
+}
 </script>
 
 <style lang="less" scoped>

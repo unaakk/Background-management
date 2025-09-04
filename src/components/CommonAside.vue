@@ -31,6 +31,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import {useAllDataStore} from '@/stores';
 
 const list = ref([
     {
@@ -78,7 +79,9 @@ const list = ref([
 ])
 const noChildren = computed(() => list.value.filter(item => !item.children));
 const hasChildren = computed(() => list.value.filter(item => item.children));
-const isCollapse = false;
+const store = useAllDataStore();
+const isCollapse = computed(()=>store.state.isCollapse);
+const width = computed(()=> {return !store.state.isCollapse ? "180px" : "64px"});
 </script>
 
 <style lang="less" scoped>
