@@ -5,6 +5,7 @@
 <template>
   <div class="common-layout">
     main
+    <el-button>qwe</el-button>
   </div>
 </template>
 
