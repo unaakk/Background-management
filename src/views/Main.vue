@@ -1,18 +1,31 @@
 <script setup>
-import { ArrowRight } from '@element-plus/icons-vue';
-
-
+import CommonAside from '@/components/CommonAside.vue'
+import CommonHeader from '@/components/CommonHeader.vue'
 </script>
 
 <template>
   <div class="common-layout">
-    main
-    <el-button>qwe</el-button>
-    <component :is="ArrowRight"></component>
+    <el-container class="lay-container">
+        <common-aside/>
+        <el-container>
+            <el-header class="el-header">
+                <common-header/>
+            </el-header>
+            <el-main class="right-main">
+                <router-view></router-view>
+            </el-main>
+        </el-container>
+    </el-container>
   </div>
 </template>
 
 <style scoped lang="less">
+    .common-layout,.lay-container {
+        height: 100%;
+    }
 
+    .el-header {
+        background: #333;
+    }
     
 </style>
