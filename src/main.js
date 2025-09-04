@@ -7,10 +7,13 @@ import router from "./router";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import { createPinia } from 'pinia';
 import "@/api/mock";
+import api from "@/api/api";
+
 
 const app = createApp(App);
 const pinia = createPinia();
 
+app.config.globalProperties.$api = api;//全局挂载api
 app.use(pinia);
 // app.use(ElementPlus);//全局引入ElementPlus
 app.use(router).mount("#app"); 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, getCurrentInstance, onMounted } from 'vue';
 var time = new Date().toLocaleTimeString();
 const getImageUrl = (user)=> {
     return new URL(`../assets/images/${user}.png`,import.meta.url).href;
@@ -32,18 +32,27 @@ const tableData = ref([
     totalBuy: '1200',
   },
 ]);
-
-import axios from 'axios'; //直接引用写法
-axios({
-    url:'/api/home/getTableData',
-    method:'get'
-}).then(res=>{
-    console.log(res.data);
-    if (res.data.code === 200) {
-        tableData.value = res.data.data.tableData;
-    }
-    //拦截请求工具mockjs
+const {proxy} = getCurrentInstance();
+const getTableData = async ()=>{
+    const data = await proxy.$api.getTableData();
+    // console.log(data);
+    tableData.value = data.tableData;
+}
+onMounted(()=>{
+    getTableData();
 })
+
+// import axios from 'axios'; //直接引用写法
+// axios({
+//     url:'/api/home/getTableData',
+//     method:'get'
+// }).then(res=>{
+//     console.log(res.data);
+//     if (res.data.code === 200) {
+//         tableData.value = res.data.data.tableData;
+//     }
+//     //拦截请求工具mockjs
+// })
 </script>
 
 <template>
