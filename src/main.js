@@ -6,6 +6,7 @@ import router from "./router";
 // import 'element-plus/dist/index.css';//全局引入ElementPlus
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import { createPinia } from 'pinia';
+import "@/api/mock";
 
 const app = createApp(App);
 const pinia = createPinia();

@@ -39,6 +39,10 @@ axios({
     method:'get'
 }).then(res=>{
     console.log(res.data);
+    if (res.data.code === 200) {
+        tableData.value = res.data.data.tableData;
+    }
+    //拦截请求工具mockjs
 })
 </script>
 
