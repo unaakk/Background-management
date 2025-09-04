@@ -1,5 +1,7 @@
 <script setup>
 import { ref, getCurrentInstance, onMounted , reactive} from 'vue';
+import * as echarts from 'echarts';
+
 var time = new Date().toLocaleTimeString();
 const getImageUrl = (user)=> {
     return new URL(`../assets/images/${user}.png`,import.meta.url).href;
@@ -47,6 +49,43 @@ const getCountData = async ()=>{
 }
 const getChartData = async ()=>{
     const {orderData,userData,videoData} = await proxy.$api.getChartData();
+
+    // 折线图
+    xOptions.xAxis.data = orderData.date;
+    xOptions.series = Object.keys(orderData.data[0]).map(val=>{
+       return {
+            name: val,
+            data: orderData.data.map(item=>item[val]),
+            type: "line",
+       }
+    });
+    const orderEchart = echarts.init(proxy.$refs['orderEchart']);
+    orderEchart.setOption(xOptions);
+
+    // 柱状图
+    xOptions.xAxis.data = userData.map(item=>(item.date));
+    xOptions.series = [
+        {
+            name: "新增用户",
+            data: userData.map(item=>(item.new)),
+            type: "bar"
+        },
+        {
+            name:"活跃用户",
+            data: userData.map(item=>(item.active)),
+            type: "bar"
+        }
+    ]
+    const userEchart = echarts.init(proxy.$refs['userEchart']);
+    userEchart.setOption(xOptions);
+
+    // 饼状图
+    pipOptions.series = {
+        type:'pie',
+        data: videoData
+    }
+    const videoEchart = echarts.init(proxy.$refs['videoEchart']);
+    videoEchart.setOption(pipOptions);
 }
 
 const xOptions = reactive({
@@ -173,6 +212,17 @@ onMounted(()=>{
                         </div>
                     </el-card>
                 </div>
+                <el-card class="zxChart">
+                    <div ref="orderEchart" style="height: 280px;width: 100%;"></div>
+                </el-card>
+                <div class="graph">
+                    <el-card >
+                        <div ref="userEchart" style="height: 240px;"></div>
+                    </el-card>
+                    <el-card>
+                        <div ref="videoEchart" style="height: 240px;"></div>
+                    </el-card>
+                </div>
             </el-col>
 
         </el-row>
@@ -261,6 +311,19 @@ onMounted(()=>{
             }
         }
 
+        .graph {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            // justify-content: space-between;
+            margin-top: 20px;
+            .el-card {
+                width: 50%;
+            }
+            .el-card:first-child {
+                margin-right: 20px;
+            }
+        }
     }
     
 </style>
