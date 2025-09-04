@@ -32,14 +32,22 @@ const tableData = ref([
     totalBuy: '1200',
   },
 ]);
+const countData = ref([]);
+
 const {proxy} = getCurrentInstance();
 const getTableData = async ()=>{
     const data = await proxy.$api.getTableData();
     // console.log(data);
     tableData.value = data.tableData;
 }
+const getCountData = async ()=>{
+    const data = await proxy.$api.getCountData();
+    // console.log(data);
+    countData.value = data.countData;
+}
 onMounted(()=>{
     getTableData();
+    getCountData();
 })
 
 // import axios from 'axios'; //直接引用写法
@@ -84,7 +92,23 @@ onMounted(()=>{
                 </el-card>
             </el-col>
             <el-col :span="16" style="margin-top:20px">
-                
+                <div class="count">
+                    <el-card 
+                    :body-style="{display:'flex',padding: '0px',flexDirection: 'row',flexWrap: 'nowrap',alignItems: center,padding:0}"
+                    v-for="item,key in countData"
+                    :key="key"
+                    class="count-card"
+                    >   
+                        <div class="icons" :style="{background:item.color}">
+                            <component :is="item.icon" class="icon" :style="{background:item.color}"></component>
+                        </div>
+                        
+                        <div class="detail" >
+                            <p class="money">￥ {{ item.value }}</p>
+                            <p class="name">{{ item.name }}</p>
+                        </div>
+                    </el-card>
+                </div>
             </el-col>
 
         </el-row>
@@ -133,6 +157,43 @@ onMounted(()=>{
             }
             p:first-child {
                 margin-bottom:10px;
+            }
+        }
+
+        .count {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content:space-between;
+            .count-card {
+                width: 32%;
+                margin-bottom: 20px;
+                // height: 50px;
+                .icons {
+                    width: 80px;
+                    // height: 80px;
+                    font-size: 30px;
+                    text-align: center;
+                    line-height: 80px;
+                    color: #fff;
+                    .icon {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+                .detail {
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    justify-content: space-evenly;
+                    padding-left: 10px;
+                    .money {
+                        font-size: 30px;
+                    }
+                    .name {
+                        font-size: 14px;
+                        color: #aaa;
+                    }
+                }
             }
         }
 

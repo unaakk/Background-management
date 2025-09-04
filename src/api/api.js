@@ -8,4 +8,10 @@ export default {
             mock: false,//true并且mockjs拦截器不引用-使用远端数据;false&&引用mockjs拦截器-使用本地home.js创造的假数据
         })
     },
+    getCountData() {
+        return request({
+            url: "/home/getCountData",
+            method: "get",
+        })
+    },
 }
