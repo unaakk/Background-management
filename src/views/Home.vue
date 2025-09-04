@@ -1,5 +1,5 @@
 <script setup>
-import { ref, getCurrentInstance, onMounted } from 'vue';
+import { ref, getCurrentInstance, onMounted , reactive} from 'vue';
 var time = new Date().toLocaleTimeString();
 const getImageUrl = (user)=> {
     return new URL(`../assets/images/${user}.png`,import.meta.url).href;
@@ -45,9 +45,73 @@ const getCountData = async ()=>{
     // console.log(data);
     countData.value = data.countData;
 }
+const getChartData = async ()=>{
+    const {orderData,userData,videoData} = await proxy.$api.getChartData();
+}
+
+const xOptions = reactive({
+    textStyle: {
+        color: "#333"
+    },
+    legend: {},
+    grid: {
+        left: "20%",
+    },
+    tooltip: {
+        trigger: "axis",
+    },
+    xAxis: {
+        type: 'category',
+        data: [],
+        axisLine: {
+            // symbol: 'arrow',
+            lineStyle: {
+                color: '#17b3a3'
+                // ...
+            }
+        },
+        axisLabel: {
+            interval: 0,
+            coloe: "#333",
+        }
+    },
+    yAxis: [
+        {
+            type: "value",
+            axisLine: {
+                lineStyle: {
+                    color: "17b3a3"
+                }
+            }
+        }
+    ],
+    color: ["#2ec7c9","#b6a2de","#5ab1ef","#ffb980","#d87a80","#8d98b3"],
+    series: [
+    ]
+})
+const pipOptions = reactive({
+    tooltip:{
+        trigger:"item",
+    },
+    legend:{},
+    color:[
+        "#0f78f4",
+        "#dd536b",
+        "#9462e5",
+        "#a6a6a6",
+        "#e1bb22",
+        "#39c362",
+        "#3ed1cf",
+    ],
+
+    series: [
+    ]
+})
+
 onMounted(()=>{
     getTableData();
     getCountData();
+    getChartData();
 })
 
 // import axios from 'axios'; //直接引用写法
