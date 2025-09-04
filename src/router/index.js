@@ -7,7 +7,14 @@ const routes = [
         path: '/',
         name: 'main',
         component: ()=> import('@/views/Main.vue'),
-
+        redirect: 'home',//重定向到home,默认打开是home
+        children:[
+            {
+                path: 'home',
+                name: 'home',
+                component: ()=> import('@/views/Home.vue'),
+            },
+        ]
     }
 ]
 
