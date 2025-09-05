@@ -1,5 +1,5 @@
 <template>
-    <el-aside :width="width">
+    <el-aside :class="menuClass">
         <el-menu 
         background-color="#545C64" 
         text-color="#fff" 
@@ -81,7 +81,7 @@ const noChildren = computed(() => list.value.filter(item => !item.children));
 const hasChildren = computed(() => list.value.filter(item => item.children));
 const store = useAllDataStore();
 const isCollapse = computed(()=>store.state.isCollapse);
-const width = computed(()=> {return !store.state.isCollapse ? "180px" : "64px"});
+const menuClass = computed(()=> {return !store.state.isCollapse ? "open" : "collapse"});
 </script>
 
 <style lang="less" scoped>
@@ -94,6 +94,7 @@ const width = computed(()=> {return !store.state.isCollapse ? "180px" : "64px"})
     border-right: none;
     h3 {
         line-height: 48px;
+        // font-size: 48px;
         color:#fff;
         text-align: center;
     }
@@ -101,5 +102,11 @@ const width = computed(()=> {return !store.state.isCollapse ? "180px" : "64px"})
 .el-aside {
     background: #545C64;
     height: 100%;
+    &.open {
+        width: 180px;
+    }
+    &.collapse {
+        width: 64px;
+    }
 }
 </style>
